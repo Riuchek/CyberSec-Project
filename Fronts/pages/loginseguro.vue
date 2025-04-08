@@ -1,46 +1,71 @@
 <template>
-    <div class="form-container">
-      <h1>Formulário Simples</h1>
-      <form @submit.prevent="submitForm">
-        <div class="form-group">
-          <label for="nome">Nome:</label>
+  <div class="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6">
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-gray-800">Login Seguro</h1>
+        <p class="mt-2 text-gray-600">Segurança no front + backend</p>
+      </div>
+      
+      <form @submit.prevent="submitForm" class="space-y-6">
+        <div>
+          <label for="login" class="block text-sm font-medium text-gray-700">login</label>
           <input 
             type="text" 
-            id="nome" 
-            v-model="formData.nome" 
+            id="login" 
+            v-model="formData.login" 
             required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="Digite seu nome"
           >
         </div>
   
-        <div class="form-group">
-          <label for="email">Email:</label>
+        <div>
+          <label for="senha" class="block text-sm font-medium text-gray-700">senha</label>
           <input 
-            type="email" 
-            id="email" 
-            v-model="formData.email" 
+            type="text" 
+            id="senha" 
+            v-model="formData.senha" 
             required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+            placeholder="seu@email.com"
           >
         </div>
   
-        <button type="submit">Enviar</button>
+        <div>
+          <button 
+            type="submit" 
+            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200"
+            >
+            Enviar
+          </button>
+        </div>
       </form>
   
-      <div v-if="message" class="message">
-        {{ message }}
+      <div 
+        v-if="message" 
+        class="mt-6 p-4 rounded-md"
+        :class="{
+          'bg-green-50 text-green-800': message.includes('sucesso'),
+          'bg-red-50 text-red-800': message.includes('Erro')
+        }"
+      >
+        <p class="text-sm">{{ message }}</p>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup lang="ts">
   const formData = ref({
-    nome: '',
-    email: ''
+    login: '',
+    senha: ''
   })
-  
+  const loading = ref(false)
   const message = ref('')
   
   async function submitForm() {
     try {
+      loading.value = true
       const response = await $fetch('http://localhost:8080/api/dados', {
         method: 'POST',
         body: JSON.stringify(formData.value),
@@ -50,55 +75,14 @@
       })
       
       message.value = 'Dados enviados com sucesso!'
-      formData.value = { nome: '', email: '' } 
+      formData.value = { login: '', senha: '' } 
     } catch (error) {
       message.value = 'Erro ao enviar: ' + (error as Error).message
+    }
+    finally {
+      loading.value = false
     }
   }
   </script>
   
-  <style scoped>
-  .form-container {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    font-family: Arial, sans-serif;
-  }
   
-  .form-group {
-    margin-bottom: 15px;
-  }
-  
-  label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-  }
-  
-  input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  button:hover {
-    background-color: #45a049;
-  }
-  
-  .message {
-    margin-top: 20px;
-    padding: 10px;
-    border-radius: 4px;
-  }
-  </style>

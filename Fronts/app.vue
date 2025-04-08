@@ -5,7 +5,9 @@ const layout = isMobile ? 'mobile' : 'desktop';
 </script>
 
 <template>
-  <div>
-    <NuxtLayout :name="layout" />
+  <div class="min-h-screen bg-gray-50">
+    <NuxtLayout :name="layout">
+       <NuxtPage />
+      </NuxtLayout>
   </div>
 </template>

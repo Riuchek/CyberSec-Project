@@ -5,5 +5,6 @@
     <div>
         <h1>SQL INJECTOR</h1>
         <p>Trust nobody</p>
+        
     </div>
 </template>

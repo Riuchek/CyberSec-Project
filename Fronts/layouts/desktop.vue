@@ -5,9 +5,8 @@
 <template>
   <div>
     <HeaderDesktop />
-      <h1>
-        desktop
-      </h1>
+    <button @click="navigateTo('login')">login bom</button>
+    <button @click="navigateTo('loginseguro')">login ruim</button>
     <NuxtPage />
     <FooterDesktop />
   </div>

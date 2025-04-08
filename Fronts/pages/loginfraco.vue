@@ -5,7 +5,7 @@
           <h1 class="text-3xl font-bold text-gray-800">Login fraco</h1>
           <p class="mt-2 text-gray-600">Sem nenhuma segurança</p>
         </div>
-        
+  
         <form @submit.prevent="submitForm" class="space-y-6">
           <div>
             <label for="login" class="block text-sm font-medium text-gray-700">Login</label>
@@ -18,7 +18,7 @@
               placeholder="login"
             >
           </div>
-    
+  
           <div>
             <label for="senha" class="block text-sm font-medium text-gray-700">Senha</label>
             <input 
@@ -30,7 +30,7 @@
               placeholder="senha fraca"
             >
           </div>
-    
+  
           <div>
             <button 
               type="submit" 
@@ -40,44 +40,51 @@
             </button>
           </div>
         </form>
-    
-        <div 
-          v-if="message" 
-          class="mt-6 p-4 rounded-md"
-          :class="{
-            'bg-green-50 text-green-800': message.includes('sucesso'),
-            'bg-red-50 text-red-800': message.includes('Erro')
-          }"
-        >
-          <p class="text-sm">{{ message }}</p>
-        </div>
+  
+      <div v-if="results.length" class="mt-6 p-4 bg-gray-100 rounded-md">
+        <h2 class="text-lg font-bold text-gray-700">Resultado:</h2>
+        <pre class="mt-2 p-2 bg-gray-200 rounded text-sm text-gray-700">{{ results }}</pre>
+      </div>
+
+      <div v-if="message" class="mt-6 text-sm" :class="{ 'text-red-600': message.includes('Erro'), 'text-green-600': message.includes('sucesso') }">
+        {{ message }}
+      </div>
       </div>
     </div>
   </template>
-    
-    <script setup lang="ts">
-    const formData = ref({
-      login: '',
-      senha: ''
-    })
-    const message = ref('')
-    
-    async function submitForm() {
-      try {
-        const response = await $fetch('http://localhost:8080/api/dados', {
-          method: 'POST',
-          body: JSON.stringify(formData.value),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        
-        message.value = 'Dados enviados com sucesso!'
-        formData.value = { login: '', senha: '' } 
-      } catch (error) {
-        message.value = 'Erro ao enviar: ' + (error as Error).message
+  
+  <script setup lang="ts">
+
+  interface Resposta {
+    message: string
+    data: any[]
+  }
+
+  const formData = ref({
+    login: '',
+    senha: ''
+  })
+  const message = ref('')
+  const results = ref<Resposta[]>([])
+  
+
+  async function submitForm() {
+  try {
+    const response:Resposta = await $fetch('/api/vulneravel', {
+      method: 'POST',
+      body: JSON.stringify(formData.value),
+      headers: {
+        'Content-Type': 'application/json'
       }
-    }
-    </script>
-    
-    
+    })
+
+    message.value = response.message || 'Dados enviados com sucesso!'
+    results.value = response.data || []
+    formData.value = { login: '', senha: '' } 
+  } catch (error) {
+    message.value = 'Erro ao enviar: ' + (error as Error).message
+    results.value = []
+  }
+  }
+  </script>
+  

@@ -63,9 +63,9 @@ SQL injection is a code injection technique that exploits security vulnerabiliti
 ## Getting Started
 
 1. Clone the repository
-2. Set up the database (see `database/README.md`)
-3. Configure front-end and back-end environments
-4. Run both servers
+2. go to Fronts/
+3. install dependecies
+4. yarn dev
 5. Test each scenario through the provided interfaces
 
 ## Contribution

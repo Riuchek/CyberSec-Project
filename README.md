@@ -5,8 +5,8 @@ This project demonstrates how SQL injection works by simulating three different 
 ## Technologies Used
 
 - **Front-end**: Vue.js with Nuxt.js (TypeScript)
-- **Back-end**: Java with Spring Framework
-- **Database**: MySQL
+- **Back-end**: Node
+- **Database**: SQLite
 
 ## Project Scenarios
 

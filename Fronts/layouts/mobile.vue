@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-// Sua lógica existente
 </script>
 
 <template>
   <div class="min-h-screen flex flex-col">
-    <!-- Container dos botões mobile (fixo no rodapé) -->
     <div class="fixed bottom-0 left-0 right-0 bg-white shadow-lg z-50 md:hidden">
       <div class="flex">
         <button 

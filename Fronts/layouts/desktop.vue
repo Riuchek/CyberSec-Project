@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-// Sua lógica existente
 </script>
 
 <template>
